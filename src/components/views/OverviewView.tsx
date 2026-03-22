@@ -5,7 +5,7 @@ import { AGENTS, KPI, DOMAIN_STATUS, BOARD_TASKS, TOKEN_WEEKLY, WEEKLY_REPORT } 
 import { LogFeed }  from '@/components/widgets/LogFeed'
 import { Badge }    from '@/components/ui/badge'
 import { cn }       from '@/lib/utils'
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, LineChart, Line, XAxis, YAxis } from 'recharts'
+import { WeeklyDonut } from '@/components/widgets/Charts'
 import { Bot, CheckCircle2, Zap, AlertTriangle, TrendingUp, School, Cpu, ArrowUpRight, ArrowDownRight } from 'lucide-react'
 import type { DomainStatus, BoardTask } from '@/lib/types'
 
@@ -23,14 +23,8 @@ const TIER_BADGE: Record<string, string> = {
   semi:   'text-amber-400 bg-amber-500/10 border-amber-500/20',
   routine:'text-muted-foreground bg-secondary border-border',
 }
-const DONUT_DATA = [
-  { name: 'Berhasil',    value: WEEKLY_REPORT.berhasil,   fill: '#34d399' },
-  { name: 'On Progress', value: WEEKLY_REPORT.onProgress, fill: '#6366f1' },
-  { name: 'Baru Mulai',  value: WEEKLY_REPORT.baruMulai,  fill: '#fbbf24' },
-]
-const TT_STYLE = {
-  contentStyle: { backgroundColor: 'hsl(0 0% 11%)', border: '1px solid hsl(0 0% 20%)', borderRadius: '8px', fontSize: '12px', color: 'hsl(0 0% 48%)' },
-}
+
+
 
 function KpiCard({ label, value, sub, icon: Icon, accent }: { label:string; value:string; sub:string; icon:typeof Bot; accent:string }) {
   return (
@@ -128,27 +122,7 @@ export function OverviewView() {
           </div>
           <div>
             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Weekly Report</p>
-            <div className="rounded-xl border border-border bg-card p-4 surface-card">
-              <ResponsiveContainer width="100%" height={140}>
-                <PieChart>
-                  <Pie data={DONUT_DATA} cx="50%" cy="50%" innerRadius={40} outerRadius={60} paddingAngle={2} dataKey="value">
-                    {DONUT_DATA.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
-                  </Pie>
-                  <Tooltip {...TT_STYLE} />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="space-y-1.5 mt-2">
-                {DONUT_DATA.map(d => (
-                  <div key={d.name} className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2 h-2 rounded-full" style={{ background: d.fill }} />
-                      <span className="text-xs text-muted-foreground">{d.name}</span>
-                    </div>
-                    <span className="text-xs font-semibold text-foreground">{d.value}%</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <WeeklyDonut />
           </div>
         </div>
 
